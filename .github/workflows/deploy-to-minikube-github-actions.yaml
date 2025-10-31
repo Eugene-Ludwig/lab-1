@@ -28,7 +28,7 @@ jobs:
           kubectl get pods -o wide
       - name: Test Service using Port-Forward (CI Fix)
         run: |
-          kubectl wait --for=condition=Available deploymen/nodejs-app --timeout=180s
+          kubectl wait --for=condition=Available deployment/nodejs-app --timeout=180s
           POD_NAME=$(kubectl get pods -l app=nodejs-app -o jsonpath="{.items[0].metadata.name}")
           echo "Found Pod: $POD_NAME. Setting up port-forward..."
           kubectl port=forward "$POD_NAME" 8080:3000 > /dev/null 2>&1 &
