@@ -23,7 +23,9 @@ jobs:
       run:
         kubectl apply -f k8s-node-app.yaml
     - name: Wait for Deployment to be Ready
-      run: kubectl wait --for=condition=Available deployment/nodejs-app --timeout=180s
+      run: |
+        kubectl rollout status deployment/nodejs-app --timeout=180s
+        kubectl get pods -o wide
     - name: Start Minikube Tunnel
       run: |
         minikube tunnel > tunnel.log 2>&1 &
