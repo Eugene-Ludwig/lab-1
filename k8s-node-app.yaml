@@ -1,5 +1,5 @@
---
-kind: Deployment
+---
+kind: Deploymenti
 apiVersion: apps/v1
 metadata:
   name: nodejs-app
