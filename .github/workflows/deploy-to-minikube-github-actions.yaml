@@ -9,12 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Start minikube
-        uses: medyagh/setup-minikube@master
+        uses: medyagh/setup-minikube@v1
+        with:
+          extra_args: --insecure-registry="10.0.0.0/24"
       - name: Try the cluster !
         run: kubectl get pods -A
       - name: Build image
         run: |
-          export SHELL=/bin/bash
           eval $(minikube -p minikube docker-env)
           docker build -f ./Dockerfile -t devopshint/node-app:latest .
           minikube image load devopshint/node-app:latest
@@ -32,7 +33,7 @@ jobs:
           POD_NAME=$(kubectl get pods -l app=nodejs-app -o jsonpath="{.items[0].metadata.name}")
           echo "Found Pod: $POD_NAME. Setting up port-forward..."
           kubectl port-forward "$POD_NAME" 8080:3000 > /dev/null 2>&1 &
-          sleep 5
+          sleep 15
           TEST_URL="http://localhost:8080"
           echo "Testing $TEST_URL..."
           curl --fail --retry 10 --retry-delay 5 $TEST_URL
