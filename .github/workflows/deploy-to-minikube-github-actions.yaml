@@ -22,7 +22,10 @@ jobs:
     - name: Deploy to minikube
       run:
         kubectl apply -f k8s-node-app.yaml
+    - name: Wait for Deployment to be Ready
+      run: kubectl wait --for=condition=Available deployment/nodejs-app --timeout=180s
     - name: Test service URLs
       run: |
-          minikube service list
-          minikube service nodejs-app --url
+          SERVICE_URL=$(minikube service nodejs-app --url)
+          echo "Service is aavilable at: $SERVICE_URL"
+          curl --fail $SERVICE_URL
