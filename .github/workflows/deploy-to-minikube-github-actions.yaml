@@ -31,7 +31,7 @@ jobs:
           kubectl wait --for=condition=Available deployment/nodejs-app --timeout=180s
           POD_NAME=$(kubectl get pods -l app=nodejs-app -o jsonpath="{.items[0].metadata.name}")
           echo "Found Pod: $POD_NAME. Setting up port-forward..."
-          kubectl port=forward "$POD_NAME" 8080:3000 > /dev/null 2>&1 &
+          kubectl port-forward "$POD_NAME" 8080:3000 > /dev/null 2>&1 &
           sleep 5
           TEST_URL="http://localhost:8080"
           echo "Testing $TEST_URL..."
