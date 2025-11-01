@@ -20,7 +20,7 @@ jobs:
           docker build --no-cache -f ./Dockerfile -t devopshint/node-app:latest .
           minikube image load devopshint/node-app:latest
           echo -n "verifying images:"
-        docker run --rm devopshint/node-app:latest sg -c "ls /usr/src/app/node_modules/express"
+          docker run --rm devopshint/node-app:latest sg -c "ls /usr/src/app/node_modules/express"
           docker images
       - name: Deploy to minikube
         run: kubectl apply -f k8s-node-app.yaml
